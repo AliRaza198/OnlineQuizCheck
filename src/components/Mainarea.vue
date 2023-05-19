@@ -36,33 +36,20 @@
             <form>
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  placeholder="Enter your name"
-                />
+                <input v-model="nameInput" type="text" class="form-control" id="name" placeholder="Enter your name" />
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  placeholder="Enter your email"
-                />
+                <input v-model="emailInput" type="email" class="form-control" id="email" placeholder="Enter your email" />
               </div>
               <div class="mb-3">
                 <label for="message" class="form-label">Message</label>
-                <textarea
-                  v-model="dataInput"
-                  class="form-control"
-                  id="message"
-                  rows="4"
-                  placeholder="Enter your message"
-                ></textarea>
+                <textarea v-model="messageInput" class="form-control" id="message" rows="4"
+                  placeholder="Enter your message"></textarea>
               </div>
-              <button type="submit" class="btn">Submit</button>
+              <button @click="submited()" type="submit" class="btn">
+                Submit
+              </button>
             </form>
           </div>
         </div>
@@ -72,17 +59,59 @@
 </template>
 
 <script>
+
+import axios from "axios";
 export default {
   name: "Mainarea",
   data() {
     return {
-      dataInput:"",
+      nameInput: "",
+      emailInput: "",
+      messageInput: "",
+      changeTab: "",
+      
     };
   },
+
+  mounted() {
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+  },
+  beforeDestroy() {
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+  },
+
+  methods: {
+    submited() {
+      axios.post('http://localhost:3000/result', {
+        Name: this.nameInput,
+        E_mail: this.emailInput,
+        Message: this.messageInput
+      })
+      alert("Data is saved!");
+  },
+
+  async handleVisibilityChange() {
+      if (document.visibilityState === 'hidden') {
+        // Create a JSON object with the message data
+        const messageData = {      
+          changeTab: "Yes,Tab Changed" 
+        };
+
+        try {
+          // Make an HTTP POST request to send the message data to the server
+          const response = await axios.post('http://localhost:3000/result', messageData);
+          
+          // Handle the response from the server if needed
+          console.log(response.data);
+        } catch (error) {
+          // Handle any errors that occur during the request
+          console.error(error);
+        }
+      }
+    }
+
+},
 };
-
-
-
 </script>
 
 <style scoped>
@@ -96,15 +125,18 @@ export default {
   width: 100%;
   /* min-width: 50px; */
 }
+
 .row {
   /* margin-left: 55px; */
   padding-top: 20px;
 }
+
 @media only screen and (max-width: 767px) {
-  .row{
+  .row {
     margin-left: 55px;
   }
 }
+
 .col1 h3,
 .col2 h3,
 .form .section h3 {
@@ -122,12 +154,15 @@ export default {
   line-height: 1.5;
   font-size: 18px;
 }
+
 .section {
   background-color: #aaaeb1;
 }
+
 form {
   padding: 10px;
 }
+
 .btn {
   background-color: #86c232;
   color: #fff;

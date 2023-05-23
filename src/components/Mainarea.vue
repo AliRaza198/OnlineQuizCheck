@@ -94,7 +94,7 @@ export default {
       if (document.visibilityState === 'hidden') {
         // Create a JSON object with the message data
         const messageData = {      
-          changeTab: "Yes,Tab Changed" 
+          changeTab: "Yes,Tab Changed"
         };
 
         try {

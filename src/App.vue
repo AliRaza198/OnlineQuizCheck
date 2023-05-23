@@ -6,24 +6,24 @@
     </div>
     <div class="sub_division2"> 
       <Mainarea />
+      <CameraRecording />
     </div>
   </div>
-  <!-- <CameraRecording /> -->
 </template>
 
 <script>
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import Mainarea from './components/Mainarea.vue'
-// import CameraRecording from './components/CameraRecording.vue'
+import CameraRecording from './components/CameraRecording.vue'
 
 export default {
   name: 'App',
   components: {
     Navbar,
     Sidebar,
-    Mainarea
-    // CameraRecording
+    Mainarea,
+    CameraRecording
   }
 }
 </script>
